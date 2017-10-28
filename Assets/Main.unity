@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.43667564, g: 0.48427135, b: 0.5645232, a: 1}
+  m_IndirectSpecularColor: {r: 0.43667546, g: 0.48427135, b: 0.56452245, a: 1}
 --- !u!157 &3
 LightmapSettings:
   m_ObjectHideFlags: 0
@@ -281,7 +281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -656,6 +656,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _cube: {fileID: 1870765330286020, guid: 253b734a8a3f244b9a75e3480dbcdf2c, type: 2}
   snackbar: {fileID: 565339623}
+  lineRenderer: {fileID: 120426778664803116, guid: 02210bcd8630a4d499f6d504ff9fa83c,
+    type: 2}
 --- !u!4 &1294392021
 Transform:
   m_ObjectHideFlags: 0

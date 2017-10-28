@@ -15,30 +15,39 @@ public class mainController : MonoBehaviour {
 	bool marker1Placed;
 	bool marker2Placed;
 
+    public LineRenderer lineRenderer;
+
 	void Start () {
 		cam = Camera.main;
 		Reset();
 		snackbar.text = "Searching for plane...";
+
 	}
 
 	void Update ()
 	{
 		List<TrackedPlane> trackedPlanes = new List<TrackedPlane>();
 		Frame.GetAllPlanes(ref trackedPlanes);
-		if(trackedPlanes.Count > 0){
-			if (marker1Placed == false) {
-				snackbar.text = "Place marker 1";
-				placeObject(1);
-			} else if (marker2Placed == false) {
-				snackbar.text = "Place marker 2";
-				placeObject(2);
-			} else {
-				float inchesDistance = Vector3.Distance(marker1, marker2) * 39.3701f;
-				snackbar.text = inchesDistance.ToString() + " in";
-			} 
+        lineRenderer = lineRenderer.GetComponent<LineRenderer>();
+        //if(trackedPlanes.Count > 0){
+		if (marker1Placed == false) {
+			snackbar.text = "Place marker 1";
+			placeObject(1);
+		} else if (marker2Placed == false) {
+			snackbar.text = "Place marker 2";
+			placeObject(2);
 		} else {
-			snackbar.text = "Searching for plane...";
-		}
+			float inchesDistance = Vector3.Distance(marker1, marker2) * 39.3701f;
+			snackbar.text = inchesDistance.ToString() + " in";
+
+            Vector3[] linePositions = new[] { marker1, marker2 };
+            lineRenderer.SetPositions(linePositions);
+		} 
+		//} else {
+		//	snackbar.text = "Searching for plane...";
+		//}
+
+
 	}
 
 	public void Reset ()
@@ -59,26 +68,27 @@ public class mainController : MonoBehaviour {
 	{
 		Touch touch;
 		TrackableHit hit;
-		TrackableHitFlag raycastfilter = TrackableHitFlag.PlaneWithinInfinity;
-		if (Input.touchCount > 0) {
+        TrackableHitFlag raycastfilter = TrackableHitFlag.PointCloud;
+		if (Input.touchCount > 0) 
+        {
 			touch = Input.GetTouch (0);
 
 			if (touch.phase != TouchPhase.Began) { //for user experience
 				return;
 			}
 
-			if (Session.Raycast (cam.ScreenPointToRay (touch.position), raycastfilter, out hit)) {
-				Anchor anc = Session.CreateAnchor (hit.Point, Quaternion.identity);
-				var cubemarker = Instantiate (_cube, hit.Point, Quaternion.identity, anc.transform);
-				cubemarker.tag = "markerTag";
-				if (mode == 1) {
-					marker1 = cubemarker.transform.position;
-					marker1Placed = true;
-				} else if (mode == 2) {
-					marker2 = cubemarker.transform.position;
-					marker2Placed = true;
-				}
+            Session.Raycast(cam.ScreenPointToRay(touch.position), raycastfilter, out hit);
+			Anchor anc = Session.CreateAnchor (hit.Point, Quaternion.identity);
+			var cubemarker = Instantiate (_cube, hit.Point, Quaternion.identity, anc.transform);
+			cubemarker.tag = "markerTag";
+			if (mode == 1) {
+				marker1 = cubemarker.transform.position;
+				marker1Placed = true;
+			} else if (mode == 2) {
+				marker2 = cubemarker.transform.position;
+				marker2Placed = true;
 			}
+			
 		}
     }
 
